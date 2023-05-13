@@ -58,6 +58,13 @@ class Html extends BaseWriter
     protected $embedImages = false;
 
     /**
+     * Use Viewport 1?
+     *
+     * @var bool
+     */
+    private $useViewPort = false;
+
+    /**
      * Use inline CSS?
      *
      * @var bool
@@ -364,6 +371,9 @@ class Html extends BaseWriter
         $html .= '<html xmlns="http://www.w3.org/1999/xhtml">' . PHP_EOL;
         $html .= '  <head>' . PHP_EOL;
         $html .= '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . PHP_EOL;
+	if ($this->useViewPort){
+		$html .= '      <meta name="viewport" content="width=device-width, initial-scale=1" />' . PHP_EOL;
+	}
         $html .= '      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet" />' . PHP_EOL;
         $html .= '      <title>' . htmlspecialchars($properties->getTitle(), Settings::htmlEntityFlags()) . '</title>' . PHP_EOL;
         $html .= self::generateMeta($properties->getCreator(), 'author');
@@ -693,8 +703,7 @@ class Html extends BaseWriter
                     //  max-width: 100% ensures that image doesnt overflow containing cell
                     //  width: X sets width of supplied image.
                     //  As a result, images bigger than cell will be contained and images smaller will not get stretched
-                    $html .= '<img alt="' . $filedesc . '" src="' . $dataUri . '" style="max-width:100%;width:' . $drawing->getWidth() . 'px;left: ' .
-                    $drawing->getOffsetX() . 'px; top: ' . $drawing->getOffsetY() . 'px;position: absolute; z-index: 1;" />';
+                    $html .= '<img alt="' . $filedesc . '" src="' . $dataUri . '" style="max-width:100%;width:' . $drawing->getWidth() . 'px;" />';
                 }
             }
         }
@@ -1588,6 +1597,19 @@ class Html extends BaseWriter
         return $this->useInlineCss;
     }
 
+    /**
+     * Set use viewport 1?
+     *
+     * @param bool $useViewPort
+     *
+     * @return $this
+     */
+    public function setUseViewPort($useViewPort)
+    {
+        $this->useViewPort = $useViewPort;
+
+        return $this;
+    }
     /**
      * Set use inline CSS?
      *
