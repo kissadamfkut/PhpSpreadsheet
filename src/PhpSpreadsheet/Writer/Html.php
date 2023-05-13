@@ -58,6 +58,13 @@ class Html extends BaseWriter
     protected $embedImages = false;
 
     /**
+     * Use Refresh? If 0, turned off, else the refresh rate
+     *
+     * @var int
+     */
+    private $refresh = 0;
+
+    /**
      * Use Viewport 1?
      *
      * @var bool
@@ -373,6 +380,9 @@ class Html extends BaseWriter
         $html .= '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . PHP_EOL;
 	if ($this->useViewPort){
 		$html .= '      <meta name="viewport" content="width=device-width, initial-scale=1" />' . PHP_EOL;
+	}
+	if ($this->refresh > 0){
+		$html .= '      <meta http-equiv="refresh" content="' . $this->refresh . '">' . PHP_EOL;
 	}
         $html .= '      <meta name="generator" content="PhpSpreadsheet, https://github.com/PHPOffice/PhpSpreadsheet" />' . PHP_EOL;
         $html .= '      <title>' . htmlspecialchars($properties->getTitle(), Settings::htmlEntityFlags()) . '</title>' . PHP_EOL;
@@ -1610,6 +1620,21 @@ class Html extends BaseWriter
 
         return $this;
     }
+
+    /**
+     * Set use refresh?
+     *
+     * @param int $refresh
+     *
+     * @return $this
+     */
+    public function setRefresh($refresh)
+    {
+        $this->refresh = $refresh;
+
+        return $this;
+    }
+
     /**
      * Set use inline CSS?
      *
